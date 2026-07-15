@@ -220,6 +220,18 @@ button{font-family:inherit;cursor:pointer;border:none}
 .rstat .k{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:800}
 .rstat .v{font-family:var(--font-display);font-size:1.8rem;font-weight:700;margin-top:4px}
 .chart-box{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow-sm);margin-bottom:var(--sp-6)}
+.info-card p{color:var(--ink);line-height:1.7;margin-bottom:12px;font-size:1rem}
+.info-card p:last-child{margin-bottom:0}
+.info-updated{margin-top:var(--sp-4);padding-top:14px;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-soft);font-weight:700;font-family:var(--font-display)}
+.site-footer{flex-shrink:0;text-align:center;padding:12px 16px;font-size:.8rem;color:var(--ink-soft);font-weight:700;font-family:var(--font-display);border-top:1px solid var(--line);background:oklch(1 0 0 / .6)}
+#typing.screen.on ~ .site-footer{display:none}
+.info-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.info-list li{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-weight:700;color:var(--ink-soft);font-family:var(--font-display);font-size:.95rem}
+.info-list li::before{content:"✓ ";color:var(--green-deep);font-weight:800}
+.contact-email-box{display:flex;align-items:center;gap:12px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:14px 0;flex-wrap:wrap}
+.contact-email-box .k{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:800;font-family:var(--font-display)}
+.contact-email-box a{color:var(--green-deep);font-weight:700;text-decoration:none;font-family:var(--font-display)}
+.contact-email-box a:hover{text-decoration:underline}
 .chart-box h3{margin-bottom:14px;font-size:1.25rem}
 .chart-holder{position:relative;height:300px}
 
@@ -279,6 +291,91 @@ button{font-family:inherit;cursor:pointer;border:none}
     <div class="home-actions">
       <button class="btn ghost" data-go="dashboard" fdprocessedid="05s6l9">📊 My Dashboard</button>
       <button class="btn warm" data-go="achievements" fdprocessedid="57tg0s">🏆 Achievements</button>
+    </div>
+    <div class="home-actions" style="margin-top:12px">
+      <button class="btn ghost" data-go="about">ℹ️ About Us</button>
+      <button class="btn ghost" data-go="privacy">🔒 Privacy Policy</button>
+      <button class="btn ghost" data-go="contact">✉️ Contact Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="screen" id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>About Typing Studio</h2>
+      <div class="head-buddies">
+        <img class="ch anim-float" data-pose="reading" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/c142b981-805d-4fd2-bfed-abcbd9f266be/generated-image-64c29b5d-37f6-4b18-ba42-c63d33ac4fcb.png?view=open">
+        <img class="ch anim-bounce" data-pose="thumbs" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/e851eb0c-2a5c-4c5d-b96f-1f05977ab224/generated-image-ea6887fb-229c-409f-a7fb-1e255edcbeec.png?view=open">
+      </div>
+    </div>
+    <div class="chart-box info-card">
+      <p>Welcome to Typing Studio!</p>
+      <p>Typing Studio is a free online typing practice platform designed to help users improve typing speed, accuracy, focus, and confidence through engaging typing challenges and practice sessions.</p>
+      <p>Our goal is to make typing practice simple, enjoyable, and accessible for everyone, whether you are a student, professional, or beginner.</p>
+      <h3 class="subhead" style="margin-top:var(--sp-6)">Features</h3>
+      <ul class="info-list">
+        <li>Typing Speed Practice</li>
+        <li>Accuracy Improvement</li>
+        <li>Timed Challenges</li>
+        <li>Progress Tracking</li>
+        <li>Achievement System</li>
+      </ul>
+      <p style="margin-top:var(--sp-4)">Thank you for using Typing Studio and being part of our learning journey.</p>
+    </div>
+    <div class="home-actions" style="margin-top:0">
+      <button class="btn ghost" data-go="home">🏠 Back</button>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY POLICY -->
+<section class="screen" id="privacy">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Privacy Policy</h2>
+      <div class="head-buddies">
+        <img class="ch anim-float" data-pose="cheeky" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/32eb160e-4678-4e59-a7aa-4bf69bd5d69f/generated-image-fceaa2b3-2206-4c6c-ab25-5e0155cae9ce.png?view=open">
+      </div>
+    </div>
+    <div class="chart-box info-card">
+      <p>Typing Studio respects your privacy.</p>
+      <p>We do not collect personal information such as passwords, banking information, or sensitive personal data.</p>
+      <p>Typing progress, achievements, and statistics may be stored locally in your browser to improve your experience.</p>
+      <p>In the future, third-party services such as Google Analytics or Google AdSense may be used to improve functionality and provide relevant advertisements.</p>
+      <p>By using Typing Studio, you agree to this Privacy Policy.</p>
+      <p>Any future updates to this policy will be published on this page.</p>
+      <p class="info-updated">Last Updated: July 2026</p>
+    </div>
+    <div class="home-actions" style="margin-top:0">
+      <button class="btn ghost" data-go="home">🏠 Back</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="screen" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Contact Us</h2>
+      <div class="head-buddies">
+        <img class="ch anim-bounce" data-pose="point" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/a6579a56-8b11-4167-b01f-fa8800ad3779/generated-image-e5bf3883-3feb-4dbe-81dd-1019a38e5acf.png?view=open">
+      </div>
+    </div>
+    <div class="chart-box info-card">
+      <p>Have feedback, suggestions, bug reports, or questions?</p>
+      <p>We would love to hear from you.</p>
+      <div class="contact-email-box">
+        <span class="k">Email</span>
+        <a href="mailto:mauryaanubhav21@gmail.com">mauryaanubhav21@gmail.com</a>
+      </div>
+      <p style="margin-top:var(--sp-4)">Typing Studio is continuously improving based on user feedback and suggestions.</p>
+      <p>Thank you for supporting Typing Studio.</p>
+      <p class="info-updated">Response Time: We typically respond within 24–48 hours.</p>
+    </div>
+    <div class="home-actions" style="margin-top:0">
+      <button class="btn ghost" data-go="home">🏠 Back</button>
     </div>
   </div>
 </section>
@@ -389,6 +486,8 @@ button{font-family:inherit;cursor:pointer;border:none}
     <div class="ach-grid" id="achGrid"></div>
   </div>
 </section>
+
+<footer class="site-footer">© 2026 Typing Studio. All Rights Reserved.</footer>
 
 <div class="wm-cover"></div>
 <div class="toast-wrap" id="toasts"></div>
