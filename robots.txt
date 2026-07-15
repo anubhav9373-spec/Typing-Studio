@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://anubhav9373-spec.github.io/Typing-Studio/sitemap.xml
