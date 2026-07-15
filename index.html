@@ -67,14 +67,14 @@
   --font-display:'Fredoka',system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+html,body{height:100%;overflow:hidden}
 body{
   font-family:"Nunito",system-ui,sans-serif;
   background:
     radial-gradient(1100px 460px at 82% -8%, oklch(0.93 0.06 130 / .45), transparent 60%),
     radial-gradient(900px 460px at 6% 0%, oklch(0.92 0.05 250 / .4), transparent 55%),
     var(--bg);
-  color:var(--ink);min-height:100%;-webkit-font-smoothing:antialiased;
+  color:var(--ink);height:100%;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;
 }
 h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;text-wrap:balance;line-height:1.05}
 button{font-family:inherit;cursor:pointer;border:none}
@@ -91,7 +91,7 @@ button{font-family:inherit;cursor:pointer;border:none}
 @keyframes jump{0%,100%{transform:translateY(0)}20%{transform:translateY(0)}55%{transform:translateY(-16px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 
-.nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:var(--sp-4);
+.nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:var(--sp-4);flex-shrink:0;
   padding:var(--sp-3) clamp(16px,4vw,40px);background:oklch(1 0 0 / .84);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .nav .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:1.4rem;color:var(--green-deep)}
 .nav .brand .ch{width:48px}
@@ -101,22 +101,28 @@ button{font-family:inherit;cursor:pointer;border:none}
 .nav button.link.active{background:var(--green);color:oklch(0.28 0.06 142)}
 
 .screen{display:none;animation:fade .4s var(--e-out)}
-.screen.on{display:block}
+.screen.on{display:block;flex:1;min-height:0;overflow-y:auto}
+#typing.screen.on{overflow:hidden}
+#typing .teleprompter{max-height:min(320px,34vh);overflow-y:auto}
+#typing .wrap.wide{padding-bottom:12px}
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .wrap{max-width:1120px;margin:0 auto;padding:clamp(16px,3vw,32px) clamp(16px,4vw,40px) 80px}
 .wrap.wide{max-width:1320px;padding-bottom:32px}
 
 /* HOME title band */
-.title-band{position:relative;min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:20px 0 4px;text-align:center}
+.title-band{position:relative;min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:90px 0 20px;text-align:center}
+.title-band .eyebrow{position:relative;z-index:2;margin-bottom:6px;
+  font-family:var(--font-display);font-weight:700;font-size:clamp(1rem,2.4vw,1.4rem);letter-spacing:.3px;color:var(--ink-soft)}
 .title-band h1{font-family:var(--font-display);font-weight:700;font-size:clamp(2.8rem,8vw,4.6rem);color:var(--green-deep);letter-spacing:.5px;position:relative;z-index:2}
-.title-band .sub{color:var(--ink-soft);font-weight:700;margin-top:8px;font-size:1.08rem;position:relative;z-index:2}
+.title-band .sub{color:var(--ink-soft);font-weight:700;margin-top:18px;font-size:1.08rem;position:relative;z-index:2}
+.title-band .sub .sub-highlight{color:var(--bad);font-weight:800}
 .title-band .ch{position:absolute;z-index:1;top:2px;width:138px}
 .tb1{left:1%}.tb2{left:18%}.tb3{left:35.5%}.tb4{left:53%}.tb5{left:70.5%}.tb6{left:88%}
 @media(max-width:1040px){.tb3,.tb4{display:none}}
 @media(max-width:820px){.tb2,.tb5{display:none}}
 @media(max-width:520px){.tb1,.tb6{display:none}.title-band{min-height:auto;padding-top:8px}}
 
-.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-4);margin-top:var(--sp-6)}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-4);margin-top:var(--sp-8)}
 @media(max-width:820px){.modes{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:460px){.modes{grid-template-columns:1fr}}
 .mode-cell{display:flex;flex-direction:column;align-items:center}
@@ -136,9 +142,9 @@ button{font-family:inherit;cursor:pointer;border:none}
 .btn{border-radius:999px;padding:12px 24px;font-weight:700;font-size:1rem;font-family:var(--font-display);transition:transform .18s var(--e-out),box-shadow .18s var(--e-out);box-shadow:var(--shadow-sm)}
 .btn:hover{transform:translateY(-3px)}
 .btn:active{transform:translateY(0)}
-.btn.primary{background:var(--green);color:oklch(0.26 0.05 142)}
+.btn.primary{background:oklch(0.82 0.14 145);color:oklch(0.26 0.05 142)}
 .btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
-.btn.warm{background:oklch(0.88 0.13 92);color:oklch(0.34 0.06 60)}
+.btn.warm{background:oklch(0.93 0.09 92);color:oklch(0.34 0.06 60)}
 .btn.sm{padding:8px 16px;font-size:.9rem}
 
 /* section head: title + pill on the left, buddies spread across the rest of the band */
@@ -154,6 +160,7 @@ button{font-family:inherit;cursor:pointer;border:none}
 .type-top{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-4);flex-wrap:wrap;margin-bottom:8px}
 .type-top-actions{display:flex;align-items:center;gap:8px}
 .type-top-actions .btn{min-width:84px;text-align:center}
+.type-top-left{display:flex;align-items:center;gap:10px}
 .type-top .mode-tag{font-family:var(--font-display);font-weight:700;font-size:1.3rem;color:var(--green-deep)}
 .type-top .mode-tag small{display:block;font-size:.85rem;color:var(--ink-soft);font-weight:600}
 .top-center{display:flex;align-items:center;gap:16px}
@@ -167,9 +174,9 @@ button{font-family:inherit;cursor:pointer;border:none}
 .metric .k{font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:800;white-space:nowrap}
 .metric .v{font-family:var(--font-display);font-weight:700;font-size:1.25rem;margin-top:1px}
 
-.stage-row{display:grid;grid-template-columns:140px 1fr 140px;gap:var(--sp-4);align-items:center;margin-bottom:8px}
+.stage-row{display:grid;grid-template-columns:140px 1fr 140px;gap:var(--sp-4);align-items:stretch;margin-bottom:8px}
 @media(max-width:900px){.stage-row{grid-template-columns:1fr}.stage-row .side-buddy{display:none}}
-.side-buddy{display:flex;flex-direction:column;align-items:center;gap:10px}
+.side-buddy{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
 .side-buddy .ch{width:132px}
 .teleprompter{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:32px clamp(28px,6vw,56px);box-shadow:var(--shadow-sm);
   font-family:var(--font-display);font-weight:500;font-size:clamp(1.5rem,3.2vw,1.9rem);line-height:2.2;letter-spacing:.01em;cursor:text;overflow:hidden}
@@ -264,8 +271,9 @@ button{font-family:inherit;cursor:pointer;border:none}
       <img class="ch tb4 anim-float" data-pose="point" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/a6579a56-8b11-4167-b01f-fa8800ad3779/generated-image-e5bf3883-3feb-4dbe-81dd-1019a38e5acf.png?view=open">
       <img class="ch tb5 anim-bounce" data-pose="gaming" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/ca10f2b6-0c2d-4f37-a2df-5d61fc0da1cf/generated-image-a8637cff-f46b-4638-b08a-9877a0931068.png?view=open">
       <img class="ch tb6 anim-float" data-pose="banana" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/4bb50456-268d-4bd2-9c68-c159d4e8a6ac/generated-image-328563b5-3984-4c52-bbd1-e667af02bb08.png?view=open">
+      <p class="eyebrow">Free Typing Test &amp; Typing Practice</p>
       <h1>Typing Studio</h1>
-      <p class="sub">Type fun little stories, race the clock, and level up your speed.</p>
+      <p class="sub">Progress isn't a race against anyone else, it's a race against who you were yesterday<br><span class="sub-highlight">because it's not you vs others, it's you vs you.</span></p>
     </div>
     <div class="modes" id="modeGrid"><div class="mode-cell"><button class="mode blue" fdprocessedid="y83ghe"><div class="big">1 min</div><div class="small">Quick Burst Challenge</div></button><img src="https://t90161693404.p.clickup-attachments.com/t90161693404/e851eb0c-2a5c-4c5d-b96f-1f05977ab224/generated-image-ea6887fb-229c-409f-a7fb-1e255edcbeec.png?view=open" alt="" class="ch anim-jump" style="width: 150px;"></div><div class="mode-cell"><button class="mode orange" fdprocessedid="41elos"><div class="big">3 min</div><div class="small">Extend Focus</div></button><img src="https://t90161693404.p.clickup-attachments.com/t90161693404/a6579a56-8b11-4167-b01f-fa8800ad3779/generated-image-e5bf3883-3feb-4dbe-81dd-1019a38e5acf.png?view=open" alt="" class="ch anim-float" style="width: 150px;"></div><div class="mode-cell"><button class="mode pink" fdprocessedid="ozoidq"><div class="big">5 min</div><div class="small">Complete Challenge</div></button><img src="https://t90161693404.p.clickup-attachments.com/t90161693404/ca10f2b6-0c2d-4f37-a2df-5d61fc0da1cf/generated-image-a8637cff-f46b-4638-b08a-9877a0931068.png?view=open" alt="" class="ch anim-dance" style="width: 150px;"></div><div class="mode-cell"><button class="mode lime" fdprocessedid="xyk3kb"><div class="big">Live Mode</div><div class="small">Endless Practice</div></button><img src="https://t90161693404.p.clickup-attachments.com/t90161693404/d582fc78-67c9-4010-b22f-0e87872580ab/generated-image-1ddc39e8-8df4-419f-8f6e-97afc47b8075.png?view=open" alt="" class="ch anim-bounce" style="width: 150px;"></div></div>
     <div class="home-actions">
@@ -279,7 +287,10 @@ button{font-family:inherit;cursor:pointer;border:none}
 <section class="screen" id="typing">
   <div class="wrap wide">
     <div class="type-top">
-      <div class="mode-tag" id="typeModeTag">Live Mode<small id="typeCatTag">Mystery story</small></div>
+      <div class="type-top-left">
+        <div class="mode-tag" id="typeModeTag">Live Mode<small id="typeCatTag">Mystery story</small></div>
+        <button class="btn warm sm" id="pauseBtn" fdprocessedid="bn6um">⏸ Pause</button>
+      </div>
       <div class="top-center">
         <img class="ch anim-float" data-pose="cheeky" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/32eb160e-4678-4e59-a7aa-4bf69bd5d69f/generated-image-fceaa2b3-2206-4c6c-ab25-5e0155cae9ce.png?view=open">
         <img class="ch anim-bounce" data-pose="thumbs" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/e851eb0c-2a5c-4c5d-b96f-1f05977ab224/generated-image-ea6887fb-229c-409f-a7fb-1e255edcbeec.png?view=open">
@@ -288,6 +299,7 @@ button{font-family:inherit;cursor:pointer;border:none}
         <img class="ch anim-float" data-pose="crown" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/6499a983-bc70-473d-8cfb-c5b1e906cd13/generated-image-312d50d5-7646-4c95-af68-08e03f14a30a.png?view=open">
       </div>
       <div class="type-top-actions">
+        <button class="btn primary sm" id="endBtn" fdprocessedid="let117">🏁 End Session</button>
         <button class="btn ghost sm" id="navRedoBtn" fdprocessedid="9fr1c">Redo</button>
         <button class="btn ghost sm" id="quitBtn" fdprocessedid="1dsrs">Quit</button>
       </div>
@@ -296,10 +308,12 @@ button{font-family:inherit;cursor:pointer;border:none}
     <div class="stage-row">
       <span class="side-buddy"><img class="ch anim-float" data-pose="reading" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/c142b981-805d-4fd2-bfed-abcbd9f266be/generated-image-64c29b5d-37f6-4b18-ba42-c63d33ac4fcb.png?view=open"></span>
       <div class="teleprompter" id="prompter" tabindex="0">
+        <div class="tlines" id="tlines">
         <div class="tline" id="l0"><span class="c ok">T</span><span class="c ok">h</span><span class="c err">e</span><span class="c ok"> </span><span class="c ok">d</span><span class="c ok">e</span><span class="c ok">t</span><span class="c ok">e</span><span class="c ok">c</span><span class="c ok">t</span><span class="c ok">i</span><span class="c ok">v</span><span class="c ok">e</span><span class="c ok"> </span><span class="c ok">s</span><span class="c ok">m</span><span class="c ok">i</span><span class="c err">l</span><span class="c ok">e</span><span class="c ok">d</span><span class="c ok"> </span><span class="c ok">s</span><span class="c ok">o</span><span class="c ok">f</span><span class="c ok">t</span><span class="c ok">l</span><span class="c ok">y</span><span class="c err">;</span><span class="c ok"> </span><span class="c ok">t</span><span class="c ok">h</span><span class="c ok">e</span><span class="c ok"> </span><span class="c ok">v</span><span class="c ok">e</span><span class="c ok">r</span><span class="c ok">y</span><span class="c ok"> </span><span class="c ok">l</span><span class="c ok">a</span><span class="c ok">s</span><span class="c ok">t</span><span class="c ok"> </span></div>
         <div class="tline cur" id="l1"><span class="c ok">p</span><span class="c ok">i</span><span class="c ok">e</span><span class="c ok">c</span><span class="c ok">e</span><span class="c ok"> </span><span class="c ok">h</span><span class="c ok">a</span><span class="c ok">d</span><span class="c ok"> </span><span class="c ok">f</span><span class="c ok">i</span><span class="c ok">n</span><span class="c ok">a</span><span class="c ok">l</span><span class="c ok">l</span><span class="c ok">y</span><span class="c ok"> </span><span class="c ok">f</span><span class="c ok">i</span><span class="c ok">t</span><span class="c ok"> </span><span class="c ok">i</span><span class="c ok">n</span><span class="c ok">t</span><span class="c ok">o</span><span class="c ok"> </span><span class="c ok">p</span><span class="c ok">l</span><span class="c ok">a</span><span class="c ok">c</span><span class="c ok">e</span><span class="c ok">.</span><span class="c ok"> </span><span class="c ok">"</span><span class="c ok">D</span><span class="c ok">o</span><span class="c ok">e</span><span class="c ok">s</span><span class="c cursor">n</span><span class="c">'</span><span class="c">t</span><span class="c"> </span></div>
         <div class="tline" id="l2"><span class="c">t</span><span class="c">h</span><span class="c">a</span><span class="c">t</span><span class="c"> </span><span class="c">c</span><span class="c">l</span><span class="c">u</span><span class="c">e</span><span class="c"> </span><span class="c">s</span><span class="c">e</span><span class="c">e</span><span class="c">m</span><span class="c"> </span><span class="c">f</span><span class="c">a</span><span class="c">m</span><span class="c">i</span><span class="c">l</span><span class="c">i</span><span class="c">a</span><span class="c">r</span><span class="c">?</span><span class="c">"</span><span class="c"> </span><span class="c">s</span><span class="c">h</span><span class="c">e</span><span class="c"> </span><span class="c">a</span><span class="c">s</span><span class="c">k</span><span class="c">e</span><span class="c">d</span><span class="c">,</span><span class="c"> </span><span class="c">a</span><span class="c">l</span><span class="c">m</span><span class="c">o</span><span class="c">s</span><span class="c">t</span><span class="c"> </span></div>
         <div class="tline" id="l3"><span class="c">c</span><span class="c">e</span><span class="c">r</span><span class="c">t</span><span class="c">a</span><span class="c">i</span><span class="c">n</span><span class="c"> </span><span class="c">s</span><span class="c">h</span><span class="c">e</span><span class="c"> </span><span class="c">k</span><span class="c">n</span><span class="c">e</span><span class="c">w</span><span class="c"> </span><span class="c">t</span><span class="c">h</span><span class="c">e</span><span class="c"> </span><span class="c">a</span><span class="c">n</span><span class="c">s</span><span class="c">w</span><span class="c">e</span><span class="c">r</span><span class="c">.</span><span class="c"> </span><span class="c">A</span><span class="c"> </span><span class="c">m</span><span class="c">u</span><span class="c">d</span><span class="c">d</span><span class="c">y</span><span class="c"> </span></div>
+        </div>
       </div>
       <span class="side-buddy"><img class="ch anim-bounce" data-pose="banana" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/4bb50456-268d-4bd2-9c68-c159d4e8a6ac/generated-image-328563b5-3984-4c52-bbd1-e667af02bb08.png?view=open"></span>
     </div>
@@ -309,9 +323,7 @@ button{font-family:inherit;cursor:pointer;border:none}
       <div class="keyboard" id="keyboard"><div class="krow"><div class="key" data-key="`">`</div><div class="key" data-key="1">1</div><div class="key" data-key="2">2</div><div class="key" data-key="3">3</div><div class="key" data-key="4">4</div><div class="key" data-key="5">5</div><div class="key" data-key="6">6</div><div class="key" data-key="7">7</div><div class="key" data-key="8">8</div><div class="key" data-key="9">9</div><div class="key" data-key="0">0</div><div class="key" data-key="-">-</div><div class="key" data-key="=">=</div><div class="key k175 accent" data-key="backspace">⌫</div></div><div class="krow"><div class="key k15 accent" data-key="tab">tab</div><div class="key" data-key="q">q</div><div class="key" data-key="w">w</div><div class="key" data-key="e">e</div><div class="key" data-key="r">r</div><div class="key" data-key="t">t</div><div class="key" data-key="y">y</div><div class="key" data-key="u">u</div><div class="key" data-key="i">i</div><div class="key" data-key="o">o</div><div class="key" data-key="p">p</div><div class="key" data-key="[">[</div><div class="key" data-key="]">]</div><div class="key accent" data-key="\">\</div></div><div class="krow"><div class="key k175 accent" data-key="caps">caps</div><div class="key" data-key="a">a</div><div class="key" data-key="s">s</div><div class="key" data-key="d">d</div><div class="key" data-key="f">f</div><div class="key" data-key="g">g</div><div class="key" data-key="h">h</div><div class="key" data-key="j">j</div><div class="key" data-key="k">k</div><div class="key" data-key="l">l</div><div class="key" data-key=";">;</div><div class="key" data-key="'">'</div><div class="key k2 accent" data-key="enter">⏎</div></div><div class="krow"><div class="key k225 accent" data-key="shift">⇧</div><div class="key" data-key="z">z</div><div class="key" data-key="x">x</div><div class="key" data-key="c">c</div><div class="key" data-key="v">v</div><div class="key" data-key="b">b</div><div class="key" data-key="n">n</div><div class="key" data-key="m">m</div><div class="key" data-key=",">,</div><div class="key" data-key=".">.</div><div class="key" data-key="/">/</div><div class="key k225 accent" data-key="shift">⇧</div></div><div class="krow"><div class="key accent" data-key="ctrl">ctrl</div><div class="key accent" data-key="fn">fn</div><div class="key accent" data-key="alt">alt</div><div class="key accent" data-key="cmd">⌘</div><div class="key space" data-key=" "> </div><div class="key accent" data-key="cmd">⌘</div><div class="key accent" data-key="alt">alt</div><div class="key accent" data-key="◂">◂</div><div class="key accent" data-key="▸">▸</div></div></div>
       <span class="kb-buddy"><img class="ch anim-float" data-pose="point" alt="" src="https://t90161693404.p.clickup-attachments.com/t90161693404/a6579a56-8b11-4167-b01f-fa8800ad3779/generated-image-e5bf3883-3feb-4dbe-81dd-1019a38e5acf.png?view=open"></span>
     </div>
-    <div class="live-ctrl" id="liveCtrl" style="display: flex;">
-      <button class="btn warm" id="pauseBtn" fdprocessedid="bn6um">⏸ Pause</button>
-      <button class="btn primary" id="endBtn" fdprocessedid="let117">🏁 End Session</button>
+    <div class="live-ctrl" id="liveCtrl" style="display: none;"></div>
     </div>
   </div>
 </section>
@@ -446,7 +458,7 @@ let engine=null;
 function go(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));
   document.querySelectorAll('.nav .link').forEach(b=>b.classList.toggle('active',b.dataset.go===id));
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo(0,0);
   if(id==='dashboard')renderDashboard();
   if(id==='achievements')renderAchievements();
   if(id!=='typing'&&engine)engine.teardown();
@@ -471,11 +483,11 @@ function renderModes(){
 renderModes();
 
 /* ============ TEXT ============ */
-function buildParagraph(){
+function buildParagraph(fixedCat){
   let parts=[];
-  const lead=CATS[Math.floor(Math.random()*CATS.length)];
+  const lead=fixedCat||CATS[Math.floor(Math.random()*CATS.length)];
   for(let i=0;i<40;i++){
-    const cat = i===0 ? lead : CATS[Math.floor(Math.random()*CATS.length)];
+    const cat = lead;
     const lines=STORIES[cat].slice();
     for(let j=lines.length-1;j>0;j--){const r=Math.floor(Math.random()*(j+1));[lines[j],lines[r]]=[lines[r],lines[j]];}
     parts.push(lines.join(' '));
@@ -583,9 +595,12 @@ function startSession(mode){
   const p=buildParagraph();
   document.getElementById('typeModeTag').firstChild.textContent=MODES[mode].label;
   document.getElementById('typeCatTag').textContent=p.cat+' story';
-  document.getElementById('liveCtrl').style.display=mode==='live'?'flex':'none';
+  const liveOn=mode==='live';
+  document.getElementById('pauseBtn').style.display=liveOn?'inline-flex':'none';
+  document.getElementById('endBtn').style.display=liveOn?'inline-flex':'none';
   buildMetricRow();
   go('typing');
+  const pr=document.getElementById('prompter');if(pr)pr.scrollTop=0;
   engine=new Engine(mode,p);
   engine.focus();
 }
@@ -630,6 +645,7 @@ class Engine{
   }
   ensureStarted(){if(!this.started){this.started=true;this.lastTick=performance.now();}}
   type(ch){
+    if(this.animating)return;
     this.ensureStarted();
     const idx=this.curIdx();const line=this.lines[idx];if(!line)return;
     const arr=this.results[idx]||(this.results[idx]=[]);
@@ -643,8 +659,10 @@ class Engine{
     arr.push(ok);this.total++;
     if(ok){this.correct++;this.streak++;if(this.streak>this.bestStreak)this.bestStreak=this.streak;}
     else{this.incorrect++;this.mistakes++;this.streak=0;}
+    this._pendingShift=0;
     if(arr.length>=line.length)this.completeLine();
     this.renderLines();this.updateMetrics();
+    if(this._pendingShift){const n=this._pendingShift;this._pendingShift=0;this.shiftLines(n);}
   }
   showBlocked(){
     const p=document.getElementById('prompter');
@@ -666,11 +684,51 @@ class Engine{
       if(c===' '||i===line.length){if(hasChar){this.words++;if(anyErr)this.wrongWords++;}anyErr=false;hasChar=false;}
       else{hasChar=true;if(!arr[i])anyErr=true;}}
     this.lineInPage++;
-    if(this.lineInPage>=3){this.pageStart+=3;this.lineInPage=0;}
-    if(this.pageStart+3>=this.lines.length){
-      const more=wrapText(buildParagraph().text,promptWidth());
+    if(this.pageStart+5>=this.lines.length){
+      const more=wrapText(buildParagraph(this.cat).text,promptWidth());
       this.lines=this.lines.concat(more);
     }
+    if(this.lineInPage>=2){this._pendingShift=2;}
+  }
+  shiftLines(n){
+    const wrap=document.getElementById('tlines');
+    const box=document.getElementById('prompter');
+    if(!wrap||!box)return;
+    const lineEl=document.getElementById('l0');
+    const lh=lineEl?lineEl.getBoundingClientRect().height:40;
+    this.animating=true;
+    const prevOverflow=box.style.overflowY;box.style.overflowY='hidden';
+    for(let k=0;k<n;k++){
+      const idx=this.pageStart+4+k;const line=this.lines[idx]||'';
+      const div=document.createElement('div');div.className='tline';div.id='lp'+k;
+      let html='';
+      for(let j=0;j<line.length;j++){
+        html+='<span class="c">'+(line[j]===' '?' ':escapeHtml(line[j]))+'</span>';
+      }
+      div.innerHTML=html;
+      wrap.appendChild(div);
+    }
+    wrap.style.transition='none';wrap.style.transform='translateY(0)';
+    void wrap.offsetWidth;
+    wrap.style.transition='transform .38s cubic-bezier(.4,0,.2,1)';
+    wrap.style.transform='translateY(-'+(lh*n)+'px)';
+    let doneRan=false;
+    const done=()=>{
+      if(doneRan)return;doneRan=true;
+      wrap.removeEventListener('transitionend',done);
+      clearTimeout(this._shiftFallback);
+      this.pageStart+=n;this.lineInPage=0;
+      wrap.style.transition='none';
+      wrap.style.transform='translateY(0)';
+      for(let k=0;k<n;k++){const el=document.getElementById('lp'+k);if(el)el.remove();}
+      this.renderLines();
+      void wrap.offsetWidth;
+      box.style.overflowY=prevOverflow;
+      this.animating=false;
+    };
+    wrap.addEventListener('transitionend',done);
+    clearTimeout(this._shiftFallback);
+    this._shiftFallback=setTimeout(done,450);
   }
   renderLines(){
     const cur=this.curIdx();
