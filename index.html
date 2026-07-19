@@ -669,6 +669,20 @@ function ensureKBuffers(){
     _actx.decodeAudioData(bytes.buffer.slice(0),(buf)=>{_kbuffers[i]=buf;},()=>{});
   });
 }
+function playErrorSound(){
+  try{
+    if(!_actx)_actx=new (window.AudioContext||window.webkitAudioContext)();
+    if(_actx.state==='suspended')_actx.resume();
+    const ctx=_actx;const now=ctx.currentTime;const dur=0.25;
+    const osc=ctx.createOscillator();const gain=ctx.createGain();
+    osc.type='square';
+    osc.frequency.setValueAtTime(1000,now);
+    gain.gain.setValueAtTime(0.14,now);
+    gain.gain.exponentialRampToValueAtTime(0.0001,now+dur);
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.start(now);osc.stop(now+dur+0.01);
+  }catch(e){}
+}
 function playClick(kind){
   try{
     if(!_actx)_actx=new (window.AudioContext||window.webkitAudioContext)();
@@ -681,8 +695,7 @@ function playClick(kind){
     const ctx=_actx;const now=ctx.currentTime;
     const src=ctx.createBufferSource();src.buffer=buf;
     const gain=ctx.createGain();
-    if(kind==='err'){src.playbackRate.value=0.82+Math.random()*0.05;gain.gain.value=0.9;}
-    else if(kind==='back'){src.playbackRate.value=0.9+Math.random()*0.05;gain.gain.value=0.75;}
+    if(kind==='back'){src.playbackRate.value=0.9+Math.random()*0.05;gain.gain.value=0.75;}
     else{src.playbackRate.value=0.97+Math.random()*0.08;gain.gain.value=0.85;}
     src.connect(gain);gain.connect(ctx.destination);
     src.start(now);
@@ -754,10 +767,10 @@ class Engine{
     const arr=this.results[idx]||(this.results[idx]=[]);
     const expected=line[arr.length];const ok=ch===expected;
     if(!ok && arr.length>0 && arr[arr.length-1]===false){
-      playClick('err');flashKey(ch===' '?' ':ch.toLowerCase(),false);this.showBlocked();
+      playErrorSound();flashKey(ch===' '?' ':ch.toLowerCase(),false);this.showBlocked();
       return;
     }
-    playClick(ok?'ok':'err');
+    if(ok)playClick('ok');else playErrorSound();
     flashKey(ch===' '?' ':ch.toLowerCase(),ok);
     arr.push(ok);this.total++;
     if(ok){this.correct++;this.streak++;if(this.streak>this.bestStreak)this.bestStreak=this.streak;}
