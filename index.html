@@ -47,6 +47,34 @@
 <link rel="shortcut icon" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 <meta name="description" content="Practice typing online with Typing Studio. Improve typing speed, WPM, accuracy and keyboard skills through free typing tests and live practice mode.">
+<link rel="canonical" href="https://typing-studio.vercel.app/">
+
+<meta property="og:title" content="Free Typing Test & Typing Practice | Typing Studio">
+<meta property="og:description" content="Practice typing online with Typing Studio. Improve typing speed, WPM, accuracy and keyboard skills through free typing tests and live practice mode.">
+<meta property="og:url" content="https://typing-studio.vercel.app/">
+<meta property="og:image" content="https://typing-studio.vercel.app/favicon.png">
+<meta property="og:site_name" content="Typing Studio">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Typing Test & Typing Practice | Typing Studio">
+<meta name="twitter:description" content="Practice typing online with Typing Studio. Improve typing speed, WPM, accuracy and keyboard skills through free typing tests and live practice mode.">
+<meta name="twitter:image" content="https://typing-studio.vercel.app/favicon.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Typing Studio",
+  "url": "https://typing-studio.vercel.app/",
+  "description": "Practice typing online with Typing Studio. Improve typing speed, WPM, accuracy and keyboard skills through free typing tests and live practice mode.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://typing-studio.vercel.app/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
 :root{
@@ -260,6 +288,18 @@ button{font-family:inherit;cursor:pointer;border:none}
 .ach h4{font-family:var(--font-display);font-size:1.05rem}
 .ach p{color:var(--ink-soft);font-weight:600;font-size:.82rem;margin-top:2px}
 .toast-wrap{position:fixed;bottom:20px;right:20px;z-index:100;display:flex;flex-direction:column;gap:10px}
+.share-modal-overlay{position:fixed;inset:0;background:oklch(0.2 0.02 260 / .45);backdrop-filter:blur(3px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.share-modal-overlay.on{display:flex}
+.share-modal{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-md);padding:28px;width:100%;max-width:420px;position:relative;animation:fade .25s var(--e-out)}
+.share-modal h3{font-family:var(--font-display);font-size:1.3rem;margin-bottom:16px;color:var(--ink)}
+.share-modal-close{position:absolute;top:14px;right:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;width:32px;height:32px;font-size:.8rem;display:flex;align-items:center;justify-content:center;color:var(--ink-soft)}
+.share-modal-close:hover{background:var(--bg)}
+.share-url-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.share-url-row input{flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-family:var(--font-display);font-size:.85rem;color:var(--ink-soft)}
+.share-social-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.share-social-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border-radius:14px;font-family:var(--font-display);font-weight:800;font-size:.88rem;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface-2);transition:transform .15s var(--e-out)}
+.share-social-btn:hover{transform:translateY(-2px)}
+@media(max-width:480px){.share-social-grid{grid-template-columns:1fr}}
 .toast{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 18px;box-shadow:var(--shadow-md);display:flex;gap:10px;align-items:center;font-weight:800;animation:slidein .4s var(--e-out)}
 .toast .t-ico{font-size:1.4rem}
 @keyframes slidein{from{transform:translateX(120%)}to{transform:none}}
@@ -295,6 +335,7 @@ button{font-family:inherit;cursor:pointer;border:none}
     <div class="home-actions">
       <button class="btn ghost" data-go="dashboard" fdprocessedid="05s6l9">📊 My Dashboard</button>
       <button class="btn warm" data-go="achievements" fdprocessedid="57tg0s">🏆 Achievements</button>
+      <button class="btn ghost" id="shareBtn">🔗 Share</button>
     </div>
     <div class="home-actions" style="margin-top:12px">
       <button class="btn ghost" data-go="about">ℹ️ About Us</button>
@@ -495,6 +536,23 @@ button{font-family:inherit;cursor:pointer;border:none}
 
 <div class="wm-cover"></div>
 <div class="toast-wrap" id="toasts"></div>
+
+<div class="share-modal-overlay" id="shareModalOverlay" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+  <div class="share-modal">
+    <button class="share-modal-close" id="shareModalClose" aria-label="Close share dialog">✖️</button>
+    <h3 id="shareModalTitle">Share Typing Studio</h3>
+    <div class="share-url-row">
+      <input type="text" id="shareUrlInput" value="https://typing-studio.vercel.app/" readonly aria-label="Website URL">
+      <button class="btn ghost sm" id="copyLinkBtn">📋 Copy Link</button>
+    </div>
+    <div class="share-social-grid">
+      <a class="share-social-btn wa" id="shareWhatsapp" href="#" target="_blank" rel="noopener noreferrer">📱 WhatsApp</a>
+      <a class="share-social-btn li" id="shareLinkedin" href="#" target="_blank" rel="noopener noreferrer">💼 LinkedIn</a>
+      <a class="share-social-btn fb" id="shareFacebook" href="#" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+      <a class="share-social-btn xt" id="shareTwitter" href="#" target="_blank" rel="noopener noreferrer">✖️ X (Twitter)</a>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ============ CHARACTER IMAGES ============ */
@@ -981,6 +1039,64 @@ function renderAchievements(){
   ACHIEVEMENTS.forEach(ac=>{const on=store.unlocked.includes(ac.id);const d=document.createElement('div');d.className='ach '+(on?'unlocked':'locked');d.innerHTML='<div class="badge">'+(on?ac.ico:'🔒')+'</div><div><h4>'+ac.name+'</h4><p>'+ac.desc+'</p></div>';g.appendChild(d);});
 }
 function toast(ico,msg){const wrap=document.getElementById('toasts');const t=document.createElement('div');t.className='toast';t.innerHTML='<span class="t-ico">'+ico+'</span><span>'+msg+'</span>';wrap.appendChild(t);setTimeout(()=>{t.style.transition='opacity .4s,transform .4s';t.style.opacity='0';t.style.transform='translateX(120%)';setTimeout(()=>t.remove(),400);},3200);}
+
+/* ============ SHARE FEATURE ============ */
+(function(){
+  const SHARE_URL='https://typing-studio.vercel.app/';
+  const SHARE_TITLE='Free Typing Test & Typing Practice | Typing Studio';
+  const SHARE_TEXT='Practice typing online with Typing Studio. Improve typing speed, WPM, accuracy and keyboard skills through free typing tests and live practice mode.';
+  const overlay=document.getElementById('shareModalOverlay');
+  const shareBtn=document.getElementById('shareBtn');
+  const closeBtn=document.getElementById('shareModalClose');
+  const copyBtn=document.getElementById('copyLinkBtn');
+  const urlInput=document.getElementById('shareUrlInput');
+
+  function openModal(){
+    document.getElementById('shareWhatsapp').href='https://wa.me/?text='+encodeURIComponent(SHARE_TITLE+' - '+SHARE_URL);
+    document.getElementById('shareLinkedin').href='https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(SHARE_URL);
+    document.getElementById('shareFacebook').href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(SHARE_URL);
+    document.getElementById('shareTwitter').href='https://twitter.com/intent/tweet?url='+encodeURIComponent(SHARE_URL)+'&text='+encodeURIComponent(SHARE_TITLE);
+    overlay.classList.add('on');
+  }
+  function closeModal(){overlay.classList.remove('on');}
+
+  if(shareBtn)shareBtn.addEventListener('click',async ()=>{
+    if(navigator.share){
+      try{
+        await navigator.share({title:SHARE_TITLE,text:SHARE_TEXT,url:SHARE_URL});
+      }catch(err){ /* user cancelled or share failed - no-op */ }
+    }else{
+      openModal();
+    }
+  });
+  if(closeBtn)closeBtn.addEventListener('click',closeModal);
+  if(overlay)overlay.addEventListener('click',(e)=>{if(e.target===overlay)closeModal();});
+  document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&overlay&&overlay.classList.contains('on'))closeModal();});
+
+  if(copyBtn)copyBtn.addEventListener('click',async ()=>{
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(SHARE_URL);
+      }else{
+        urlInput.removeAttribute('readonly');
+        urlInput.focus();urlInput.select();
+        document.execCommand('copy');
+        urlInput.setAttribute('readonly','');
+      }
+      toast('✅','Link copied successfully!');
+    }catch(err){
+      try{
+        urlInput.removeAttribute('readonly');
+        urlInput.focus();urlInput.select();
+        document.execCommand('copy');
+        urlInput.setAttribute('readonly','');
+        toast('✅','Link copied successfully!');
+      }catch(e2){
+        toast('⚠️','Could not copy link');
+      }
+    }
+  });
+})();
 </script>
 
 
